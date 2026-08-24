@@ -68,6 +68,8 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/reusable.yml
+    with:
+      aftifact-name: dist-files
 
   report:
     runs-on: ubuntu-latest
