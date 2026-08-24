@@ -7,9 +7,17 @@ on:
         required: false
         default: dist
         type: string
-
+    outputs:
+      # give a name to each output, for example result
+      result:
+        description: the result of the deployment
+        # 3 - reference the 'outcome' variables contents
+        value: ${{ jobs.deploy.outputs.outcome }}
 jobs:
   deploy:
+    outputs:
+      # 2 - name an output 'outcome' and dynamically get its value
+      outcome: ${{ steps.set-result.outputs.step-result }}
     runs-on: ubuntu-latest
     steps:
       - name: get code
@@ -20,3 +28,7 @@ jobs:
         run: ls -l
       - name: Output info
         run: echo "Deploying..."
+        # 1 - set the variable step-result to success and give the step an id
+      - name: Set result output
+        id: set-result
+        run: echo "step-result=success" >> GITHUB_OUTPUT
