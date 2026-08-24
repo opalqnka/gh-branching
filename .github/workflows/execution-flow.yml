@@ -34,8 +34,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test code
+        id: run-tests #add id field to the step
         run: npm run test
       - name: Upload test report
+        if: failure() && ${{ steps.run-tests.outcome == 'failure' }} # can omit ${{ }} in if: conditions
         uses: actions/upload-artifact@v3
         with:
           name: test-report
