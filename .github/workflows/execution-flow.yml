@@ -37,7 +37,7 @@ jobs:
         id: run-tests #add id field to the step
         run: npm run test
       - name: Upload test report
-        if: failure() && ${{ steps.run-tests.outcome == 'failure' }} # can omit ${{ }} in if: conditions
+        if: ${{ failure() && steps.run-tests.outcome == 'failure' }}
         uses: actions/upload-artifact@v4
         with:
           name: test-report
